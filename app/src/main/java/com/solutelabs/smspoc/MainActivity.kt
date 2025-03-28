@@ -11,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
@@ -63,11 +66,19 @@ class MainActivity : AppCompatActivity() {
         cursor?.use {
             val addressIndex = it.getColumnIndex(Telephony.Sms.ADDRESS)
             val bodyIndex = it.getColumnIndex(Telephony.Sms.BODY)
+            val dateIndex = it.getColumnIndex(Telephony.Sms.DATE)
 
             while (it.moveToNext()) {
                 val address = it.getString(addressIndex)
                 val body = it.getString(bodyIndex)
-                smsList.add(SmsModel(address, body))
+                val timestamp = it.getLong(dateIndex)
+
+                // Convert timestamp to readable format
+                val formattedDate = SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault()).format(
+                    Date(timestamp)
+                )
+
+                smsList.add(SmsModel(address, body, formattedDate))
             }
             smsAdapter.notifyDataSetChanged()
         }

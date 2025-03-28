@@ -12,6 +12,7 @@ class SmsAdapter(private val smsList: List<SmsModel>) :
     class SmsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val sender: TextView = view.findViewById(R.id.senderTextView)
         val message: TextView = view.findViewById(R.id.messageTextView)
+        val timeText: TextView = view.findViewById(R.id.timeTextView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SmsViewHolder {
@@ -23,6 +24,8 @@ class SmsAdapter(private val smsList: List<SmsModel>) :
         val sms = smsList[position]
         holder.sender.text = sms.sender
         holder.message.text = sms.message
+        holder.timeText.text = sms.date
+
     }
 
     override fun getItemCount(): Int = smsList.size
